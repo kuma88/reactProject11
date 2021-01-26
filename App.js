@@ -1,7 +1,8 @@
-import React from "react";
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import React, {useState} from "react";
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Button} from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator,} from '@react-navigation/stack';
+
 
 
 function HomeScreen({navigation}) {
@@ -14,7 +15,10 @@ function HomeScreen({navigation}) {
         <Text style={styles.buttonText}>Add Name</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('AnotherScreen')}
+        >
       <Text style={styles.buttonText}>Add Expense</Text>
       </TouchableOpacity>
     </View>
@@ -22,17 +26,35 @@ function HomeScreen({navigation}) {
 }
 
 function DetailsScreen({navigation}) {
+  const [text, setText] = useState("");
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
+    <View style={{ flex: 0.5, alignItems: "center", justifyContent: "center" }}>
+      <Text style={styles.text}>Name:</Text>
+      <TextInput
+        style={styles.textInput}
+        value={text}
+        onChangeText={(input) => setText(input)}
+      />
+      <Text style={styles.text}>Amount:</Text>
+      <TextInput style={styles.textInput} value={text} onChangeText={(input) => setText(input)}/>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Notes", { text })}
+        >
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 function AnotherScreen({navigation}) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Another Screen</Text>
+    <View style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center'}}>
+      <Text style={styles.text}>Add Expense</Text>
+      <Button title="Go to Home" onPress={() => navigation.navigate('HomeScreen')} />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
 }
@@ -47,7 +69,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
-          <Stack.Screen name="Another Screen" component={AnotherScreen} />
+          <Stack.Screen name="AnotherScreen" component={AnotherScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
@@ -56,15 +78,23 @@ export default function App() {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 1,
+    flex: 0.5,
     justifyContent: "center", 
     alignItems: "center",
     flexDirection: "row",
   },
 
   buttonText: {
-    textAlign: "center",
     color: "white",
+    textAlign: "center",
+
+  },
+
+  text: {
+    textAlign: "left",
+    marginTop: 20,
+    fontSize:30,
+    paddingLeft:20,
   },
 
   button: {
@@ -74,6 +104,15 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 30,
     width: 150,
+  },
+
+  textInput: {
+    borderColor: "grey",
+    borderWidth: 1,
+    width: "80%",
+    padding: 10,
+    marginTop: 20,
+ 
   }
 
 });
