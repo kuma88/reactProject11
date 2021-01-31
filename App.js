@@ -1,16 +1,17 @@
 import React, {useState} from "react";
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, Button} from "react-native";
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Button, FlatList} from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator,} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 
 
 function HomeScreen({navigation}) {
+
   return (
     <View style={styles.container}>
       <TouchableOpacity 
         style={styles.button} 
-        onPress={() => navigation.navigate('Details')}
+        onPress={() => navigation.navigate('AddForm')}
         >
         <Text style={styles.buttonText}>Add Name</Text>
       </TouchableOpacity>
@@ -19,32 +20,40 @@ function HomeScreen({navigation}) {
         style={styles.button}
         onPress={() => navigation.navigate('AnotherScreen')}
         >
-      <Text style={styles.buttonText}>Add Expense</Text>
+        <Text style={styles.buttonText}>Add Expense</Text>
       </TouchableOpacity>
+
     </View>
+
+
   );
 }
 
-function DetailsScreen({navigation}) {
-  const [text, setText] = useState("");
+function AddForm({navigation}) {
+
   return (
     <View style={{ flex: 0.5, alignItems: "center", justifyContent: "center" }}>
+
       <Text style={styles.text}>Name:</Text>
-      <TextInput
-        style={styles.textInput}
-        value={text}
-        onChangeText={(input) => setText(input)}
-      />
+
+      <TextInput style={styles.textInput} />
+      
       <Text style={styles.text}>Amount:</Text>
-      <TextInput style={styles.textInput} value={text} onChangeText={(input) => setText(input)}/>
+
+      <TextInput style={styles.textInput}/>
+
       <View style={styles.buttonContainer}>
+
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Notes", { text })}
+          onPress={() => navigation.navigate("HomeScreen")}
         >
           <Text style={styles.buttonText}>Submit</Text>
+
         </TouchableOpacity>
+
       </View>
+
     </View>
   );
 }
@@ -52,9 +61,12 @@ function DetailsScreen({navigation}) {
 function AnotherScreen({navigation}) {
   return (
     <View style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center'}}>
-      <Text style={styles.text}>Add Expense</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('HomeScreen')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <Text style={styles.text}>Add Expense Amount:</Text>
+
+      <TextInput style={styles.textInput}/>
+
+      {/* <Button title="Go to Home" onPress={() => navigation.navigate('HomeScreen')} />
+      <Button title="Go back" onPress={() => navigation.goBack()} /> */}
     </View>
   );
 }
@@ -68,7 +80,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen name="AddForm" component={AddForm} />
           <Stack.Screen name="AnotherScreen" component={AnotherScreen} />
         </Stack.Navigator>
       </NavigationContainer>
